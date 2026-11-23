@@ -1,0 +1,15 @@
+export {
+  computeDeadlineUrgency,
+  computeFairnessScore,
+  computeEquipmentCriticality,
+  computePriorityScore,
+  slotsOverlap,
+  findConflicts,
+  findAlternativeSlots,
+  findSubstitutes,
+  proposeSplitSlot,
+  resolveConflict,
+  checkCapacity,
+  formatHour,
+  getNextDate,
+} from './conflictResolver';
