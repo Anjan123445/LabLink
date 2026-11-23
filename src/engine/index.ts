@@ -2,6 +2,7 @@ export {
   computeDeadlineUrgency,
   computeFairnessScore,
   computeEquipmentCriticality,
+  computePriorityBreakdown,
   computePriorityScore,
   slotsOverlap,
   findConflicts,
@@ -12,4 +13,9 @@ export {
   checkCapacity,
   formatHour,
   getNextDate,
+  PROJECT_TYPE_WEIGHTS,
+  WEIGHT_DEADLINE,
+  WEIGHT_PROJECT_TYPE,
+  WEIGHT_FAIRNESS,
+  WEIGHT_EQUIPMENT_CRITICALITY,
 } from './conflictResolver';
