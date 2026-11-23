@@ -105,7 +105,7 @@ export default function ApprovalQueue({
           <p className="text-xs text-slate-500 mt-0.5">
             {pendingCount > 0 ? (
               <>
-                <span className="font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded mr-1">
+                <span className="font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded mr-1 border border-amber-200">
                   {pendingCount} Pending Triage
                 </span>{' '}
                 require coordinator review
@@ -122,10 +122,10 @@ export default function ApprovalQueue({
               key={status}
               type="button"
               onClick={() => setFilterStatus(status)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border ${
                 filterStatus === status
-                  ? 'bg-brand-600 text-white border-brand-600 shadow-2xs'
-                  : 'bg-white border-slate-200 text-slate-600 hover:border-brand-300'
+                  ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
+                  : 'bg-white border-slate-200/90 text-slate-600 hover:border-slate-300'
               }`}
             >
               {status}
@@ -141,25 +141,25 @@ export default function ApprovalQueue({
           const deadlineTime = new Date(pr.deadline).getTime();
           const daysUntilDeadline = Math.max(0, Math.ceil((deadlineTime - Date.now()) / (1000 * 60 * 60 * 24)));
           const urgencyColor =
-            daysUntilDeadline <= 3 ? 'text-red-600 font-extrabold' :
-            daysUntilDeadline <= 7 ? 'text-amber-600 font-bold' :
-            'text-slate-600';
+            daysUntilDeadline <= 3 ? 'text-rose-600 font-extrabold font-mono' :
+            daysUntilDeadline <= 7 ? 'text-amber-600 font-bold font-mono' :
+            'text-slate-600 font-mono';
           const urgencyLabel =
             daysUntilDeadline <= 3 ? 'CRITICAL DEADLINE' :
             daysUntilDeadline <= 7 ? 'HIGH URGENCY' :
             daysUntilDeadline <= 14 ? 'MODERATE' : 'FLEXIBLE';
 
           return (
-            <article key={pr.id} className="card overflow-hidden shadow-sm">
+            <article key={pr.id} className="card overflow-hidden shadow-2xs">
               {/* Request Summary Row (Clickable) */}
               <button
                 type="button"
                 onClick={() => setExpandedId(isExpanded ? null : pr.id)}
-                className="w-full p-5 flex items-start gap-4 text-left hover:bg-slate-50/50 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full p-5 flex items-start gap-4 text-left hover:bg-slate-50/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
                 aria-expanded={isExpanded}
                 aria-label={`Toggle details for ${pr.title} by ${pr.userName}`}
               >
-                <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center text-xs font-bold flex-shrink-0" aria-hidden="true">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 border border-slate-200/80 flex items-center justify-center text-xs font-bold flex-shrink-0 font-mono" aria-hidden="true">
                   {pr.userName.split(' ').map(n => n[0]).join('')}
                 </div>
 
@@ -175,16 +175,16 @@ export default function ApprovalQueue({
                   <p className="text-xs text-slate-500 mt-1">
                     Student: <strong className="text-slate-800">{pr.userName}</strong> ·{' '}
                     <span className={urgencyColor}>{urgencyLabel} ({daysUntilDeadline}d remaining)</span> ·{' '}
-                    <span>{pr.requiredHours}h requested</span>
+                    <span className="font-mono">{pr.requiredHours}h requested</span>
                   </p>
 
-                  <p className="text-xs text-slate-600 mt-1 truncate">
+                  <p className="text-xs text-slate-600 mt-1 truncate font-mono">
                     Equipment: {pr.requiredEquipment.map(id => equipmentMap.get(id)?.name ?? id).join(', ')}
                   </p>
                 </div>
 
                 <svg
-                  className={`w-5 h-5 text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
+                  className={`w-5 h-5 text-slate-400 transition-transform duration-fast flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -197,25 +197,25 @@ export default function ApprovalQueue({
 
               {/* Expanded Inspection Section */}
               {isExpanded && (
-                <div className="border-t border-slate-200 p-5 space-y-4 bg-slate-50/60 animate-fade-in">
+                <div className="border-t border-slate-100 p-5 space-y-4 bg-slate-50/60 animate-fade-in">
                   {/* Proposal Metadata Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
                       <span className="text-[10px] text-slate-400 block uppercase font-bold">Research Team</span>
                       <span className="font-semibold text-slate-800 mt-0.5 block">{pr.teamMembers.join(', ')}</span>
                     </div>
 
-                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
                       <span className="text-[10px] text-slate-400 block uppercase font-bold">Faculty Mentor</span>
                       <span className="font-semibold text-slate-800 mt-0.5 block">{pr.facultyMentor || 'Dr. Meera Nair'}</span>
                     </div>
 
-                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
                       <span className="text-[10px] text-slate-400 block uppercase font-bold">Lab Hours Quota</span>
-                      <span className="font-semibold text-slate-800 mt-0.5 block">{pr.requiredHours} Hours Total</span>
+                      <span className="font-semibold text-slate-800 mt-0.5 block font-mono">{pr.requiredHours} Hours Total</span>
                     </div>
 
-                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
                       <span className="text-[10px] text-slate-400 block uppercase font-bold">Milestone Deadline</span>
                       <span className={`font-semibold mt-0.5 block ${urgencyColor}`}>{pr.deadline}</span>
                     </div>
@@ -227,20 +227,20 @@ export default function ApprovalQueue({
                       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                         Student Academic Justification:
                       </span>
-                      <p className="text-xs text-slate-700 bg-white rounded-xl p-3 border border-slate-200 leading-relaxed">
+                      <p className="text-xs text-slate-700 bg-white rounded-xl p-3 border border-slate-200/80 leading-relaxed font-sans">
                         {pr.justification}
                       </p>
                     </div>
                   )}
 
                   {/* AI Triage Brief (FR6) */}
-                  <div className="rounded-xl bg-brand-50 border border-brand-200 p-4 space-y-1.5">
+                  <div className="rounded-xl bg-indigo-50/50 border border-indigo-200/80 p-4 space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-brand-900">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-900">
                         <span aria-hidden="true">🤖</span>
                         <span>AI Triage Decision Support (Google Gemini / Smart Engine)</span>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-100 text-brand-800">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
                         Automated Risk Matrix
                       </span>
                     </div>
@@ -251,18 +251,18 @@ export default function ApprovalQueue({
 
                   {/* Previous Feedback Note if changes requested */}
                   {pr.facultyFeedback && (
-                    <div className="rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-900">
+                    <div className="rounded-xl bg-amber-50 border border-amber-200/90 p-3 text-xs text-amber-900">
                       <strong>Current Faculty Feedback:</strong> {pr.facultyFeedback}
                     </div>
                   )}
 
                   {/* Faculty Action Buttons */}
-                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200">
+                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200/80">
                     <button
                       type="button"
                       onClick={() => handleApproveDirect(pr)}
                       disabled={isSubmitting || pr.approvalStatus === 'Approved'}
-                      className="btn-success text-xs py-2 px-3.5 font-bold"
+                      className="btn-success text-xs py-2 px-3.5 font-semibold"
                       aria-label={`Approve request for ${pr.title}`}
                     >
                       ✅ Approve Proposal
@@ -272,7 +272,7 @@ export default function ApprovalQueue({
                       type="button"
                       onClick={() => handleOpenFeedback(pr, 'Changes Requested')}
                       disabled={isSubmitting}
-                      className="btn-secondary text-xs py-2 px-3.5 font-bold border-amber-300 text-amber-800 hover:bg-amber-50"
+                      className="btn-secondary text-xs py-2 px-3.5 font-semibold border-amber-300 text-amber-900 hover:bg-amber-50"
                       aria-label={`Request modifications with feedback for ${pr.title}`}
                     >
                       ✏️ Request Changes (with note)
@@ -282,7 +282,7 @@ export default function ApprovalQueue({
                       type="button"
                       onClick={() => handleOpenFeedback(pr, 'Approved with Modification')}
                       disabled={isSubmitting}
-                      className="btn-primary text-xs py-2 px-3.5 font-bold"
+                      className="btn-primary text-xs py-2 px-3.5 font-semibold"
                       aria-label={`Approve with AI-Suggested modification for ${pr.title}`}
                     >
                       📝 Approve with AI Modification
@@ -292,7 +292,7 @@ export default function ApprovalQueue({
                       type="button"
                       onClick={() => handleOpenFeedback(pr, 'Rejected')}
                       disabled={isSubmitting || pr.approvalStatus === 'Rejected'}
-                      className="btn-danger text-xs py-2 px-3.5 font-bold"
+                      className="btn-danger text-xs py-2 px-3.5 font-semibold"
                       aria-label={`Reject proposal for ${pr.title}`}
                     >
                       ❌ Reject
@@ -308,7 +308,7 @@ export default function ApprovalQueue({
       {filtered.length === 0 && (
         <div className="card p-12 text-center text-slate-500 space-y-2">
           <p className="text-3xl" aria-hidden="true">📭</p>
-          <p className="text-sm font-semibold text-slate-700">No project proposals match the selected filter</p>
+          <p className="text-sm font-semibold text-slate-800">No project proposals match the selected filter</p>
           <p className="text-xs text-slate-400">Select "All" to inspect historical approvals and triaged requests.</p>
         </div>
       )}
@@ -322,11 +322,11 @@ export default function ApprovalQueue({
           aria-labelledby="feedback-modal-title"
         >
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs"
             onClick={() => setFeedbackModalRequest(null)}
           ></div>
 
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 space-y-4">
+          <div className="relative bg-white rounded-2xl shadow-elevated border border-slate-200/80 max-w-lg w-full p-6 space-y-4 animate-modal-enter">
             <div className="flex items-center justify-between">
               <h3 id="feedback-modal-title" className="text-base font-bold text-slate-900">
                 {feedbackModalRequest.targetStatus === 'Changes Requested'
@@ -338,7 +338,7 @@ export default function ApprovalQueue({
               <button
                 type="button"
                 onClick={() => setFeedbackModalRequest(null)}
-                className="p-1 rounded-lg hover:bg-slate-100 text-slate-400"
+                className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
                 aria-label="Close feedback modal"
               >
                 ✕
@@ -346,7 +346,7 @@ export default function ApprovalQueue({
             </div>
 
             <p className="text-xs text-slate-500">
-              Project: <strong>{feedbackModalRequest.request.title}</strong> ({feedbackModalRequest.request.userName})
+              Project: <strong className="text-slate-800">{feedbackModalRequest.request.title}</strong> ({feedbackModalRequest.request.userName})
             </p>
 
             <div>
@@ -364,7 +364,7 @@ export default function ApprovalQueue({
               />
             </div>
 
-            <div className="flex gap-2 pt-2 border-t border-slate-100">
+            <div className="flex gap-2.5 pt-2 border-t border-slate-100">
               <button
                 type="button"
                 onClick={() => setFeedbackModalRequest(null)}
@@ -377,7 +377,7 @@ export default function ApprovalQueue({
                 type="button"
                 onClick={handleSubmitFeedback}
                 disabled={isSubmitting || !facultyFeedbackNote.trim()}
-                className={`flex-1 text-xs font-bold ${
+                className={`flex-1 text-xs font-semibold py-2 px-3.5 rounded-lg text-white transition-colors ${
                   feedbackModalRequest.targetStatus === 'Rejected'
                     ? 'btn-danger'
                     : feedbackModalRequest.targetStatus === 'Approved with Modification'

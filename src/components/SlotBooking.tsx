@@ -20,7 +20,6 @@ import {
   computePriorityBreakdown,
 } from '../engine';
 import { equipmentMap } from '../data/equipment';
-import { users } from '../data/seed';
 import { explainConflictResolution } from '../services/aiAssistant';
 import { validateBookingSlot } from '../utils/validation';
 
@@ -284,7 +283,7 @@ export default function SlotBooking({
           <button
             type="button"
             onClick={handleSimulateConflict}
-            className="btn-secondary w-full sm:w-auto text-xs py-2.5 font-bold shadow-sm border-brand-300 hover:bg-brand-50 hover:text-brand-700"
+            className="btn-secondary w-full sm:w-auto text-xs py-2 font-semibold shadow-2xs border-slate-300 hover:border-slate-400"
             aria-label="1-Click Simulate Scheduling Conflict Demo"
           >
             ⚡ 1-Click Simulate Conflict Demo
@@ -294,14 +293,14 @@ export default function SlotBooking({
 
       {/* Action feedback / Validation Error */}
       {actionFeedback && (
-        <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-4 flex items-center gap-3 text-xs sm:text-sm text-emerald-800" role="status" aria-live="polite">
+        <div className="rounded-xl bg-emerald-50 border border-emerald-200/90 p-4 flex items-center gap-3 text-xs sm:text-sm text-emerald-800" role="status" aria-live="polite">
           <span className="text-xl">✅</span>
           <span className="font-semibold">{actionFeedback}</span>
         </div>
       )}
 
       {validationError && (
-        <div className="rounded-xl bg-red-50 border border-red-200 p-4 flex items-center gap-3 text-xs sm:text-sm text-red-800" role="alert" aria-live="assertive">
+        <div className="rounded-xl bg-rose-50 border border-rose-200/90 p-4 flex items-center gap-3 text-xs sm:text-sm text-rose-800" role="alert" aria-live="assertive">
           <span className="text-xl">⚠️</span>
           <span className="font-semibold">{validationError}</span>
         </div>
@@ -312,20 +311,20 @@ export default function SlotBooking({
           {/* Selected Equipment Profile Card */}
           <div className="card p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-slate-100 text-slate-800 border border-slate-200/80 flex items-center justify-center text-xl font-bold flex-shrink-0">
                 🔬
               </div>
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-sm font-bold text-slate-900">{selectedEquipment.name}</h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-medium">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-medium font-mono">
                     {selectedEquipment.department}
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Location: <span className="text-slate-700 font-medium">{selectedEquipment.location}</span> · Quota: Max {selectedEquipment.maxDailyHours}h/day
+                  Location: <span className="text-slate-700 font-medium">{selectedEquipment.location}</span> · Quota: <span className="font-mono">Max {selectedEquipment.maxDailyHours}h/day</span>
                 </p>
-                <p className="text-[11px] text-slate-600 mt-1">{selectedEquipment.specs}</p>
+                <p className="text-[11px] text-slate-600 mt-1 font-mono">{selectedEquipment.specs}</p>
               </div>
             </div>
 
@@ -338,7 +337,7 @@ export default function SlotBooking({
           </div>
 
           {/* 7-Day Date Tabs */}
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Select Calendar Day (7-Day Horizon):</p>
             <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Select date for booking">
               {weekDates.map(date => {
@@ -354,10 +353,10 @@ export default function SlotBooking({
                       setConflictResult(null);
                       setValidationError(null);
                     }}
-                    className={`flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all border ${
+                    className={`flex-shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors border ${
                       isSelected
-                        ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
-                        : 'bg-white border-slate-200 text-slate-700 hover:border-brand-300'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                        : 'bg-white border-slate-200/90 text-slate-700 hover:border-slate-300'
                     }`}
                     role="tab"
                     aria-selected={isSelected}
@@ -371,9 +370,9 @@ export default function SlotBooking({
 
           {/* Visual Utilization Heatmap Matrix */}
           <div className="card overflow-hidden">
-            <div className="p-4 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="p-4 border-b border-slate-100 bg-slate-50/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div>
-                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
                   Hourly Slot Matrix — {formatDateShort(selectedDate)}
                 </h4>
                 <p className="text-[11px] text-slate-500">Click a start hour, then click an end hour to form an interval</p>
@@ -381,9 +380,9 @@ export default function SlotBooking({
 
               {/* Legend */}
               <div className="flex items-center gap-3 text-[11px] text-slate-500 flex-wrap">
-                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-100 border border-emerald-300"></span> Available</span>
-                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-amber-100 border border-amber-300"></span> Booked (Contention)</span>
-                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-brand-500 border border-brand-600"></span> Your Selection</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-50 border border-emerald-300 inline-block"></span> Available</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-50 border border-amber-300 inline-block"></span> Booked (Contention)</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-slate-900 border border-slate-900 inline-block"></span> Your Selection</span>
               </div>
             </div>
 
@@ -397,21 +396,21 @@ export default function SlotBooking({
                     hour >= selectedStart && hour < selectedEnd;
 
                   const cellClass = isSelected
-                    ? 'bg-brand-600 text-white border-brand-700 shadow-md ring-2 ring-brand-400'
+                    ? 'bg-slate-900 text-white border-slate-900 shadow-sm ring-2 ring-slate-900/10'
                     : count === 0
-                    ? 'bg-emerald-50 text-emerald-900 border-emerald-200 hover:bg-emerald-100'
-                    : 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100';
+                    ? 'bg-emerald-50/70 text-emerald-900 border-emerald-200/90 hover:bg-emerald-100/70'
+                    : 'bg-amber-50/70 text-amber-900 border-amber-200/90 hover:bg-amber-100/70';
 
                   return (
                     <button
                       key={hour}
                       type="button"
                       onClick={() => handleSlotClick(selectedDate, hour)}
-                      className={`p-2.5 rounded-xl border text-center transition-all ${cellClass} focus:outline-none focus:ring-2 focus:ring-brand-500`}
+                      className={`p-2.5 rounded-xl border text-center transition-colors ${cellClass} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900`}
                       aria-label={`${formatHour(hour)} to ${formatHour(hour + 1)}, ${count > 0 ? `${count} existing booking(s)` : 'Free'}`}
                     >
-                      <div className="text-[11px] font-bold">{formatHour(hour).replace(':00', '')}</div>
-                      <div className={`text-[9px] mt-0.5 ${isSelected ? 'text-brand-100' : 'text-slate-500'}`}>
+                      <div className="text-[11px] font-bold font-mono">{formatHour(hour).replace(':00', '')}</div>
+                      <div className={`text-[9px] mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>
                         {count > 0 ? `${count} active` : 'Free'}
                       </div>
                     </button>
@@ -423,14 +422,14 @@ export default function SlotBooking({
 
           {/* Selected Slot Summary Action Bar */}
           {selectedStart !== null && selectedEnd !== null && (
-            <div className="card p-4 bg-slate-50/70 border-brand-200 space-y-3 animate-fade-in">
+            <div className="card p-4 bg-slate-50/80 border-slate-200/90 space-y-3 animate-fade-in">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-bold text-slate-800">
-                    Selected Window: <span className="text-brand-700">{formatHour(selectedStart)} → {formatHour(selectedEnd)}</span> ({selectedEnd - selectedStart} hours)
+                  <div className="text-xs font-bold text-slate-900">
+                    Selected Window: <span className="font-mono text-indigo-700">{formatHour(selectedStart)} → {formatHour(selectedEnd)}</span> ({selectedEnd - selectedStart} hours)
                   </div>
-                  <p className="text-[11px] text-slate-500">
-                    Date: {formatDateShort(selectedDate)} · Priority Score: <strong>{incomingBreakdown?.totalScore ?? 85}/100</strong>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Date: {formatDateShort(selectedDate)} · Priority Score: <strong className="font-mono">{incomingBreakdown?.totalScore ?? 85}/100</strong>
                   </p>
                 </div>
 
@@ -459,18 +458,18 @@ export default function SlotBooking({
       ) : (
         <div className="card p-12 text-center text-slate-500 space-y-2">
           <p className="text-3xl" aria-hidden="true">🔬</p>
-          <p className="text-sm font-semibold text-slate-700">Select equipment above to load 7-day slot availability</p>
+          <p className="text-sm font-semibold text-slate-800">Select equipment above to load 7-day slot availability</p>
           <p className="text-xs text-slate-400">Or click "Simulate Conflict Demo" to test conflict resolution immediately.</p>
         </div>
       )}
 
       {/* Confirmed Bookings Feed */}
       <div className="card overflow-hidden">
-        <div className="p-4 border-b border-slate-200 flex items-center justify-between">
-          <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+          <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
             Active Campus Laboratory Bookings ({bookings.filter(b => b.status === 'Confirmed').length})
           </h4>
-          <span className="text-[11px] text-slate-500">Live multi-user updates</span>
+          <span className="text-[11px] text-slate-500 font-medium">Live multi-user updates</span>
         </div>
 
         <div className="divide-y divide-slate-100 max-h-72 overflow-y-auto">
@@ -487,12 +486,12 @@ export default function SlotBooking({
                       <span className="badge badge-purple text-[10px]">{bk.projectType}</span>
                     </div>
                     <p className="text-slate-500 text-[11px] mt-0.5">
-                      Reserved by: <strong className="text-slate-700">{bk.userName}</strong> · {formatDateShort(bk.slot.date)} ({formatHour(bk.slot.startHour)} – {formatHour(bk.slot.endHour)})
+                      Reserved by: <strong className="text-slate-800">{bk.userName}</strong> · {formatDateShort(bk.slot.date)} ({formatHour(bk.slot.startHour)} – {formatHour(bk.slot.endHour)})
                     </p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <span className="badge badge-green text-[10px]">Confirmed</span>
-                    <p className="text-[10px] text-brand-600 font-mono mt-0.5 font-bold">Priority: {bk.priority}</p>
+                    <p className="text-[10px] text-indigo-700 font-mono mt-0.5 font-bold">Priority: {bk.priority}</p>
                   </div>
                 </div>
               );
@@ -509,25 +508,25 @@ export default function SlotBooking({
           aria-labelledby="conflict-modal-title"
         >
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs"
             onClick={() => setShowConflictModal(false)}
           ></div>
 
           <div
             ref={conflictModalRef}
-            className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto"
+            className="relative bg-white rounded-2xl shadow-elevated border border-slate-200/80 max-w-2xl w-full max-h-[88vh] overflow-y-auto animate-modal-enter"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-200 px-6 py-4 rounded-t-2xl z-10 flex items-center justify-between">
+            <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 px-6 py-4 rounded-t-2xl z-10 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="w-10 h-10 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xl font-bold flex-shrink-0">
+                <span className="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/80 flex items-center justify-center text-xl font-bold flex-shrink-0">
                   ⚠️
                 </span>
                 <div>
                   <h2 id="conflict-modal-title" className="text-base font-bold text-slate-900 leading-tight">
                     Deterministic Conflict Resolution & Fair Allocation
                   </h2>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 mt-0.5 font-medium">
                     {selectedEquipment.name} ({selectedEquipment.department})
                   </p>
                 </div>
@@ -535,7 +534,7 @@ export default function SlotBooking({
               <button
                 type="button"
                 onClick={() => setShowConflictModal(false)}
-                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400"
+                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
                 aria-label="Close conflict resolution modal"
               >
                 ✕
@@ -544,7 +543,7 @@ export default function SlotBooking({
 
             <div className="p-6 space-y-5">
               {/* Conflicting Booking Details */}
-              <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-2">
+              <div className="p-4 rounded-xl bg-rose-50/80 border border-rose-200/80 space-y-2">
                 <p className="text-xs font-bold text-rose-900 uppercase tracking-wider">Colliding Booking on Requested Window</p>
                 {conflictResult.conflictingBookings.map(cb => (
                   <div key={cb.id} className="flex items-center justify-between text-xs text-rose-800">
@@ -554,52 +553,67 @@ export default function SlotBooking({
                         {formatHour(cb.slot.startHour)} – {formatHour(cb.slot.endHour)} on {cb.slot.date}
                       </span>
                     </div>
-                    <span className="font-mono font-bold text-rose-700 bg-white/80 px-2 py-0.5 rounded border border-rose-200">
+                    <span className="font-mono font-bold text-rose-800 bg-white/90 px-2 py-0.5 rounded border border-rose-200">
                       Existing Priority: {cb.priority}/100
                     </span>
                   </div>
                 ))}
               </div>
 
-              {/* Priority Scoring Visual Breakdown (FR4) */}
+              {/* Priority Scoring Visual Breakdown (FR4 - Executive Decision Card) */}
               {incomingBreakdown && (
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                <div className="p-4 rounded-xl bg-slate-50/90 border border-slate-200/80 space-y-3">
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-bold text-slate-800 uppercase tracking-wider">
                       Transparent 4-Factor Priority Score Breakdown
                     </p>
-                    <span className="text-xs font-mono font-extrabold text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-200">
+                    <span className="text-xs font-mono font-bold text-indigo-800 bg-indigo-50 px-2.5 py-0.5 rounded border border-indigo-200">
                       Total: {incomingBreakdown.totalScore}/100
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-                    <div className="p-2 bg-white rounded-lg border border-slate-200">
-                      <div className="text-[10px] text-slate-500">Deadline (35%)</div>
-                      <div className="font-bold text-slate-800 mt-0.5">{incomingBreakdown.deadlineScore}</div>
-                      <div className="text-[10px] text-brand-600">+{incomingBreakdown.deadlineWeighted} pts</div>
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
+                      <div className="text-[10px] text-slate-500 font-medium">Deadline (35%)</div>
+                      <div className="font-bold text-slate-900 mt-0.5 font-mono text-sm">{incomingBreakdown.deadlineScore}</div>
+                      <div className="text-[10px] text-indigo-700 font-mono mt-0.5">+{incomingBreakdown.deadlineWeighted} pts</div>
+                      <div className="w-full bg-slate-100 h-1 rounded-full mt-1.5 overflow-hidden">
+                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${incomingBreakdown.deadlineScore}%` }}></div>
+                      </div>
                     </div>
-                    <div className="p-2 bg-white rounded-lg border border-slate-200">
-                      <div className="text-[10px] text-slate-500">Project Type (25%)</div>
-                      <div className="font-bold text-slate-800 mt-0.5">{incomingBreakdown.projectTypeScore}</div>
-                      <div className="text-[10px] text-brand-600">+{incomingBreakdown.projectTypeWeighted} pts</div>
+
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
+                      <div className="text-[10px] text-slate-500 font-medium">Project Type (25%)</div>
+                      <div className="font-bold text-slate-900 mt-0.5 font-mono text-sm">{incomingBreakdown.projectTypeScore}</div>
+                      <div className="text-[10px] text-indigo-700 font-mono mt-0.5">+{incomingBreakdown.projectTypeWeighted} pts</div>
+                      <div className="w-full bg-slate-100 h-1 rounded-full mt-1.5 overflow-hidden">
+                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${incomingBreakdown.projectTypeScore}%` }}></div>
+                      </div>
                     </div>
-                    <div className="p-2 bg-white rounded-lg border border-slate-200">
-                      <div className="text-[10px] text-slate-500">Fairness (20%)</div>
-                      <div className="font-bold text-slate-800 mt-0.5">{incomingBreakdown.fairnessScore}</div>
-                      <div className="text-[10px] text-brand-600">+{incomingBreakdown.fairnessWeighted} pts</div>
+
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
+                      <div className="text-[10px] text-slate-500 font-medium">Fairness (20%)</div>
+                      <div className="font-bold text-slate-900 mt-0.5 font-mono text-sm">{incomingBreakdown.fairnessScore}</div>
+                      <div className="text-[10px] text-indigo-700 font-mono mt-0.5">+{incomingBreakdown.fairnessWeighted} pts</div>
+                      <div className="w-full bg-slate-100 h-1 rounded-full mt-1.5 overflow-hidden">
+                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${incomingBreakdown.fairnessScore}%` }}></div>
+                      </div>
                     </div>
-                    <div className="p-2 bg-white rounded-lg border border-slate-200">
-                      <div className="text-[10px] text-slate-500">Criticality (20%)</div>
-                      <div className="font-bold text-slate-800 mt-0.5">{incomingBreakdown.criticalityScore}</div>
-                      <div className="text-[10px] text-brand-600">+{incomingBreakdown.criticalityWeighted} pts</div>
+
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200/80 shadow-2xs">
+                      <div className="text-[10px] text-slate-500 font-medium">Criticality (20%)</div>
+                      <div className="font-bold text-slate-900 mt-0.5 font-mono text-sm">{incomingBreakdown.criticalityScore}</div>
+                      <div className="text-[10px] text-indigo-700 font-mono mt-0.5">+{incomingBreakdown.criticalityWeighted} pts</div>
+                      <div className="w-full bg-slate-100 h-1 rounded-full mt-1.5 overflow-hidden">
+                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${incomingBreakdown.criticalityScore}%` }}></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Natural Language AI Analysis */}
-              <div className="p-4 rounded-xl bg-indigo-50/60 border border-indigo-100 text-xs text-slate-700 whitespace-pre-wrap leading-relaxed">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 whitespace-pre-wrap leading-relaxed font-sans">
                 {explainConflictResolution(conflictResult, selectedEquipment.id)}
               </div>
 
@@ -612,10 +626,10 @@ export default function SlotBooking({
                 {conflictResult.recommendations.map((rec, i) => {
                   const badgeColor =
                     rec.type === 'alternative-slot'
-                      ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                      ? 'bg-emerald-50/70 border-emerald-200/80 text-emerald-900'
                       : rec.type === 'cross-department'
-                      ? 'bg-blue-50 border-blue-200 text-blue-800'
-                      : 'bg-purple-50 border-purple-200 text-purple-800';
+                      ? 'bg-sky-50/70 border-sky-200/80 text-sky-900'
+                      : 'bg-indigo-50/70 border-indigo-200/80 text-indigo-900';
 
                   return (
                     <div key={i} className={`p-4 rounded-xl border ${badgeColor} space-y-2`}>
@@ -623,7 +637,7 @@ export default function SlotBooking({
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-xs sm:text-sm">{rec.title}</span>
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/80">
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/90 border border-current/20 font-mono">
                               {rec.confidence}% Match
                             </span>
                           </div>
@@ -639,7 +653,7 @@ export default function SlotBooking({
                           type="button"
                           onClick={() => handleAcceptRec(rec)}
                           disabled={isSubmitting}
-                          className="btn-primary text-xs py-1.5 px-3 font-bold"
+                          className="btn-primary text-xs py-1.5 px-3 font-semibold"
                           aria-label={`Accept recommendation: ${rec.title}`}
                         >
                           {isSubmitting ? 'Applying...' : 'Accept This Option →'}

@@ -43,6 +43,21 @@ export default {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
+      transitionTimingFunction: {
+        'ease-out-custom': 'cubic-bezier(0.23, 1, 0.32, 1)',
+        'ease-in-out-custom': 'cubic-bezier(0.77, 0, 0.175, 1)',
+        'ease-drawer': 'cubic-bezier(0.32, 0.72, 0, 1)',
+      },
+      transitionDuration: {
+        fast: '160ms',
+        base: '220ms',
+        modal: '260ms',
+      },
+      boxShadow: {
+        '2xs': '0 1px 2px 0 rgba(15, 23, 42, 0.03)',
+        'subtle': '0 1px 2px 0 rgba(15, 23, 42, 0.04)',
+        'elevated': '0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04)',
+      },
     },
   },
   plugins: [],

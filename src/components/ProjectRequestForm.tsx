@@ -145,14 +145,14 @@ export default function ProjectRequestForm({
       aria-modal="true"
       aria-labelledby="request-form-title"
     >
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs" onClick={onClose}></div>
 
       <div
         ref={modalRef}
-        className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto"
+        className="relative bg-white rounded-2xl shadow-elevated border border-slate-200/80 max-w-2xl w-full max-h-[88vh] overflow-y-auto animate-modal-enter"
       >
         {/* Sticky Header */}
-        <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-200 px-6 py-4 rounded-t-2xl z-10 flex items-center justify-between">
+        <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 px-6 py-4 rounded-t-2xl z-10 flex items-center justify-between">
           <div>
             <h2 id="request-form-title" className="text-base font-bold text-slate-900 leading-tight">
               📋 Multi-Resource Project Access Proposal
@@ -164,7 +164,7 @@ export default function ProjectRequestForm({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400"
+            className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
             aria-label="Close project request form"
           >
             ✕
@@ -173,13 +173,13 @@ export default function ProjectRequestForm({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-800 font-semibold" role="alert">
+            <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200/90 text-xs text-rose-800 font-semibold" role="alert">
               ⚠️ {errorMsg}
             </div>
           )}
 
           {initialKit && (
-            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center gap-2">
+            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200/90 text-xs text-emerald-800 flex items-center gap-2">
               <span>✨</span>
               <span>Pre-filled from GenAI Project Matcher recommendation!</span>
             </div>
@@ -280,7 +280,7 @@ export default function ProjectRequestForm({
 
             <div className="sm:col-span-2">
               <label htmlFor="pr-hours" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Total Estimated Lab Hours Required ({requiredHours} hours)
+                Total Estimated Lab Hours Required (<span className="font-mono text-indigo-700">{requiredHours} hours</span>)
               </label>
               <input
                 id="pr-hours"
@@ -290,7 +290,7 @@ export default function ProjectRequestForm({
                 step={2}
                 value={requiredHours}
                 onChange={e => setRequiredHours(Number(e.target.value))}
-                className="w-full accent-brand-600 cursor-pointer"
+                className="w-full accent-slate-900 cursor-pointer"
               />
             </div>
           </div>
@@ -301,12 +301,12 @@ export default function ProjectRequestForm({
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                 Select Equipment from Across Departments *
               </label>
-              <span className="text-[11px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded">
+              <span className="text-[11px] font-bold font-mono text-indigo-800 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
                 {requiredEquipment.length} Selected
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-44 overflow-y-auto rounded-xl border border-slate-200 p-2.5 bg-slate-50/50">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-44 overflow-y-auto rounded-xl border border-slate-200/90 p-2.5 bg-slate-50/50">
               {equipment.map(eq => {
                 const isChecked = requiredEquipment.includes(eq.id);
                 return (
@@ -314,7 +314,7 @@ export default function ProjectRequestForm({
                     key={eq.id}
                     className={`flex items-start gap-2.5 p-2 rounded-lg cursor-pointer transition-colors border text-xs ${
                       isChecked
-                        ? 'bg-brand-50/80 border-brand-300 ring-1 ring-brand-300'
+                        ? 'bg-indigo-50/70 border-indigo-300 ring-1 ring-indigo-300'
                         : 'bg-white border-slate-200 hover:border-slate-300'
                     }`}
                   >
@@ -322,10 +322,10 @@ export default function ProjectRequestForm({
                       type="checkbox"
                       checked={isChecked}
                       onChange={() => toggleEquipment(eq.id)}
-                      className="mt-0.5 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+                      className="mt-0.5 rounded border-slate-300 text-slate-900 focus:ring-slate-900"
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-slate-800 leading-tight truncate">{eq.name}</p>
+                      <p className="font-semibold text-slate-900 leading-tight truncate">{eq.name}</p>
                       <p className="text-[10px] text-slate-500 mt-0.5">{eq.department} · {eq.location}</p>
                     </div>
                   </label>
@@ -350,7 +350,7 @@ export default function ProjectRequestForm({
           </div>
 
           {/* Form Actions */}
-          <div className="flex gap-2 pt-2 border-t border-slate-100">
+          <div className="flex gap-2.5 pt-2 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
@@ -362,7 +362,7 @@ export default function ProjectRequestForm({
             <button
               type="submit"
               disabled={isSubmitting || !title.trim() || requiredEquipment.length === 0}
-              className="btn-primary flex-1 text-xs sm:text-sm font-bold"
+              className="btn-primary flex-1 text-xs sm:text-sm font-semibold"
             >
               {isSubmitting ? 'Submitting Proposal...' : 'Submit Proposal for Faculty Triage →'}
             </button>

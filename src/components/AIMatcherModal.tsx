@@ -100,17 +100,17 @@ export default function AIMatcherModal({
       aria-labelledby="ai-matcher-title"
     >
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs" onClick={onClose}></div>
 
       {/* Modal Dialog */}
       <div
         ref={modalRef}
-        className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto"
+        className="relative bg-white rounded-2xl shadow-elevated border border-slate-200/80 max-w-2xl w-full max-h-[88vh] overflow-y-auto animate-modal-enter"
       >
         {/* Sticky Header */}
-        <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-200 px-6 py-4 rounded-t-2xl z-10 flex items-center justify-between">
+        <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 px-6 py-4 rounded-t-2xl z-10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center text-xl font-bold flex-shrink-0" aria-hidden="true">
+            <span className="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 border border-slate-200/80 flex items-center justify-center text-xl font-bold flex-shrink-0" aria-hidden="true">
               ✨
             </span>
             <div>
@@ -121,8 +121,8 @@ export default function AIMatcherModal({
                 <span
                   className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${
                     isGeminiConfigured()
-                      ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20'
-                      : 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20'
+                      ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-600/20'
+                      : 'bg-amber-50 text-amber-800 ring-1 ring-amber-600/20'
                   }`}
                 >
                   <span
@@ -132,14 +132,14 @@ export default function AIMatcherModal({
                   ></span>
                   {isGeminiConfigured() ? 'Gemini 2.5 Flash Ready' : 'Offline Smart Engine Active'}
                 </span>
-                <span className="text-[10px] text-slate-400">Zero-Failure Guarantee</span>
+                <span className="text-[10px] text-slate-400 font-mono">Zero-Failure Guarantee</span>
               </div>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
             aria-label="Close AI Project Matcher Modal"
           >
             ✕
@@ -192,7 +192,7 @@ export default function AIMatcherModal({
                   max={10}
                   value={teamSize}
                   onChange={e => setTeamSize(Number(e.target.value))}
-                  className="input-field text-xs py-2"
+                  className="input-field text-xs py-2 font-mono"
                 />
               </div>
 
@@ -214,7 +214,7 @@ export default function AIMatcherModal({
             <button
               type="submit"
               disabled={loading || !description.trim()}
-              className="btn-primary w-full text-xs sm:text-sm py-2.5 font-bold"
+              className="btn-primary w-full text-xs sm:text-sm py-2.5 font-semibold"
             >
               {loading ? (
                 <>
@@ -239,7 +239,7 @@ export default function AIMatcherModal({
                     key={i}
                     type="button"
                     onClick={() => setDescription(example)}
-                    className="w-full text-left text-xs text-slate-600 hover:text-brand-700 hover:bg-brand-50/70 rounded-lg px-3 py-2 border border-slate-200 transition-colors"
+                    className="w-full text-left text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg px-3 py-2 border border-slate-200/80 transition-colors"
                   >
                     "{example}"
                   </button>
@@ -250,15 +250,15 @@ export default function AIMatcherModal({
 
           {/* Results Display */}
           {matchResult && (
-            <div className="space-y-5 pt-3 border-t border-slate-200 animate-fade-in">
+            <div className="space-y-5 pt-3 border-t border-slate-100 animate-fade-in">
               {/* Telemetry Header Pill */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div className="flex items-center gap-2.5">
                   <span className="text-base" aria-hidden="true">🤖</span>
                   <div>
-                    <div className="text-xs font-bold text-slate-800">
+                    <div className="text-xs font-bold text-slate-900">
                       Recommendation Generated by{' '}
-                      <span className={isLive ? 'text-emerald-700 font-extrabold' : 'text-blue-700 font-extrabold'}>
+                      <span className={isLive ? 'text-emerald-800 font-extrabold' : 'text-indigo-800 font-extrabold'}>
                         {isLive ? 'Live Google Gemini AI (gemini-2.5-flash)' : 'Offline Smart Engine'}
                       </span>
                     </div>
@@ -267,7 +267,7 @@ export default function AIMatcherModal({
                 </div>
                 <span
                   className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                    isLive ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'
+                    isLive ? 'bg-emerald-100 text-emerald-800' : 'bg-indigo-100 text-indigo-800'
                   }`}
                 >
                   {isLive ? 'Live Gemini AI' : 'Offline Smart Engine'}
@@ -275,7 +275,7 @@ export default function AIMatcherModal({
               </div>
 
               {/* Analysis Text */}
-              <div className="rounded-xl bg-indigo-50/60 border border-indigo-100 p-4 text-xs text-slate-700 whitespace-pre-wrap leading-relaxed">
+              <div className="rounded-xl bg-slate-50 border border-slate-200/80 p-4 text-xs text-slate-700 whitespace-pre-wrap leading-relaxed font-sans">
                 {matchResult.explanation}
               </div>
 
@@ -286,7 +286,7 @@ export default function AIMatcherModal({
                     Recommended Multi-Resource Equipment ({matchResult.equipment.length})
                   </h3>
                   <span className="text-[11px] text-slate-500">
-                    Suggested allocation: <strong>{matchResult.suggestedDurationHours}h</strong> total
+                    Suggested allocation: <strong className="font-mono">{matchResult.suggestedDurationHours}h</strong> total
                   </span>
                 </div>
 
@@ -294,16 +294,16 @@ export default function AIMatcherModal({
                   {matchResult.equipment.map(eq => (
                     <div
                       key={eq.id}
-                      className="p-3.5 rounded-xl border border-slate-200 bg-white hover:border-brand-300 transition-colors flex items-center justify-between gap-3 shadow-sm"
+                      className="p-3.5 rounded-xl border border-slate-200/80 bg-white hover:border-slate-300 transition-colors flex items-center justify-between gap-3 shadow-2xs"
                     >
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold text-slate-900">{eq.name}</span>
-                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
                             {eq.department}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 mt-0.5 truncate">{eq.specs}</p>
+                        <p className="text-[11px] text-slate-500 mt-0.5 truncate font-mono">{eq.specs}</p>
                         <p className="text-[10px] text-slate-400 mt-0.5">Location: {eq.location}</p>
                       </div>
 
@@ -324,21 +324,19 @@ export default function AIMatcherModal({
               </div>
 
               {/* 1-Click Request Recommended Kit Action */}
-              <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-brand-500/10 border border-emerald-500/20 space-y-2">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-900">
-                      ⚡ 1-Click Multi-Resource Request Proposal
-                    </h4>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Need multiple items simultaneously for your team? Pre-fill the Faculty Project Request Form with all {matchResult.equipment.length} recommended items.
-                    </p>
-                  </div>
+              <div className="p-4 rounded-xl bg-slate-900 text-white border border-slate-800 space-y-2.5">
+                <div>
+                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>⚡</span> 1-Click Multi-Resource Request Proposal
+                  </h4>
+                  <p className="text-xs text-slate-300 mt-0.5 leading-relaxed">
+                    Need multiple items simultaneously for your team? Pre-fill the Faculty Project Request Form with all {matchResult.equipment.length} recommended items.
+                  </p>
                 </div>
                 <button
                   type="button"
                   onClick={handleRequestKit}
-                  className="btn-success w-full text-xs sm:text-sm py-2.5 font-bold shadow-sm"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 text-xs sm:text-sm font-semibold active:scale-[0.98] transition-colors shadow-sm"
                   aria-label="Request Recommended Kit (Pre-fills Project Access Form)"
                 >
                   📋 Request Recommended Kit ({matchResult.equipment.length} Equipment Items)
@@ -349,7 +347,7 @@ export default function AIMatcherModal({
               <button
                 type="button"
                 onClick={() => setMatchResult(null)}
-                className="btn-ghost w-full text-xs text-slate-500"
+                className="btn-ghost w-full text-xs text-slate-500 hover:text-slate-900"
               >
                 ← Refine Query or Try Another Description
               </button>

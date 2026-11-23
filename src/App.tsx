@@ -100,12 +100,12 @@ export default function App() {
         {/* Dynamic Toast Notification (Accessible Live Region) */}
         {toastMessage && (
           <div
-            className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs sm:text-sm flex items-center gap-2.5 border border-slate-700 animate-fade-in"
+            className="fixed bottom-5 right-5 z-50 bg-slate-950 text-white px-4 py-2.5 rounded-xl shadow-elevated border border-slate-800 text-xs sm:text-sm flex items-center gap-2.5 animate-toast"
             role="status"
             aria-live="polite"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
-            <span>{toastMessage}</span>
+            <span className="font-medium text-slate-100">{toastMessage}</span>
           </div>
         )}
 
@@ -121,17 +121,17 @@ export default function App() {
         />
 
         {/* Persona Context Sub-banner */}
-        <div className="bg-slate-100/90 border-b border-slate-200 py-2 px-4 sm:px-6">
+        <div className="bg-white/70 backdrop-blur border-b border-slate-200/70 py-1.5 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto flex items-center justify-between text-xs text-slate-600">
             <div className="flex items-center gap-2 truncate">
-              <span className="font-bold text-slate-700">Active Persona:</span>
-              <span className="text-brand-700 font-semibold">{currentPersona.label}</span>
-              <span className="text-slate-400 hidden sm:inline">|</span>
-              <span className="text-slate-500 hidden sm:inline">{currentPersona.description}</span>
+              <span className="font-semibold text-slate-500">Active Persona:</span>
+              <span className="text-slate-900 font-semibold">{currentPersona.label}</span>
+              <span className="text-slate-300 hidden sm:inline">|</span>
+              <span className="text-slate-500 hidden sm:inline text-[11px]">{currentPersona.description}</span>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0">
-              <span className="text-slate-400 hidden md:inline">Single Branch: main</span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full ring-1 ring-emerald-600/20">
+              <span className="text-slate-400 font-mono text-[11px] hidden md:inline">git: main</span>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full ring-1 ring-emerald-600/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" aria-hidden="true"></span> Zero Auth Wall
               </span>
             </div>

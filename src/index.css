@@ -1,64 +1,237 @@
+/* Hallmark · v2.0.0 · theme: Academic Precision · genre: modern-minimal */
+/* Critique: Strict 1px hairline borders, tabular-nums for engineering specs, zero AI-slop gradients, instant focus rings, reduced-motion fallbacks */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Motion tokens (Linear / Emil Kowalski standard) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --duration-modal: 260ms;
+
+  /* Subtle academic surface hierarchy */
+  --surface-canvas: #f8fafc;
+  --surface-card: #ffffff;
+  --surface-muted: #f1f5f9;
+  --surface-dark: #090d16;
+  --border-hairline: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+}
+
 @layer base {
-  * {
-    @apply border-slate-200;
+  html, body {
+    overflow-x: clip;
   }
+
+  * {
+    border-color: var(--border-hairline);
+  }
+
   body {
-    @apply bg-slate-50 text-slate-800;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--surface-canvas);
+    color: #0f172a;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Instant, unmissable keyboard focus indicators for accessibility (WCAG 2.1 AA) */
+  :focus-visible {
+    outline: 2px solid #0f172a;
+    outline-offset: 2px;
   }
 }
 
 @layer components {
+  /* Precision Buttons — snappy, responsive, tactile press feedback */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-slate-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+    transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out), opacity var(--duration-fast) var(--ease-out);
   }
+
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200/90 bg-white px-4 py-2 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+    transition: background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
+
+  .btn-brand {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  }
+
   .btn-success {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
+
   .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-rose-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
+
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-slate-600 transition-all hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
+
+  /* Academic Surface Card — Hairline 1px border, subtle elevation */
   .card {
-    @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    @apply rounded-xl border border-slate-200/80 bg-white;
+    box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
   }
+
+  /* Accessible Badges (Passing 4.5:1 Contrast) */
   .badge {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium tabular-nums;
   }
   .badge-green {
-    @apply badge bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20;
+    @apply badge bg-emerald-50 text-emerald-800 ring-1 ring-inset ring-emerald-600/20;
   }
   .badge-yellow {
-    @apply badge bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20;
+    @apply badge bg-amber-50 text-amber-800 ring-1 ring-inset ring-amber-600/20;
   }
   .badge-red {
-    @apply badge bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20;
+    @apply badge bg-rose-50 text-rose-800 ring-1 ring-inset ring-rose-600/20;
   }
   .badge-blue {
-    @apply badge bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20;
+    @apply badge bg-sky-50 text-sky-800 ring-1 ring-inset ring-sky-600/20;
   }
   .badge-purple {
-    @apply badge bg-purple-50 text-purple-700 ring-1 ring-inset ring-purple-600/20;
+    @apply badge bg-indigo-50 text-indigo-800 ring-1 ring-inset ring-indigo-600/20;
   }
+
+  /* Department Semantic Color Indicators */
+  .badge-dept-cs {
+    @apply badge bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-600/20;
+  }
+  .badge-dept-robotics {
+    @apply badge bg-cyan-50 text-cyan-800 ring-1 ring-inset ring-cyan-600/20;
+  }
+  .badge-dept-electrical {
+    @apply badge bg-amber-50 text-amber-800 ring-1 ring-inset ring-amber-600/20;
+  }
+  .badge-dept-bio {
+    @apply badge bg-emerald-50 text-emerald-800 ring-1 ring-inset ring-emerald-600/20;
+  }
+
+  /* Input fields — Clean border, subtle focus ring */
   .input-field {
-    @apply block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all;
+    @apply block w-full rounded-lg border border-slate-300/90 bg-white px-3.5 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10;
+    box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+    transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
   }
+
   .heat-low {
-    @apply bg-emerald-100 text-emerald-800;
+    @apply bg-emerald-50 text-emerald-800 border-emerald-200/80;
   }
   .heat-medium {
-    @apply bg-amber-100 text-amber-800;
+    @apply bg-amber-50 text-amber-800 border-amber-200/80;
   }
   .heat-high {
-    @apply bg-red-100 text-red-800;
+    @apply bg-rose-50 text-rose-800 border-rose-200/80;
+  }
+}
+
+/* Keyframe & Animation definitions (transform & opacity only) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-fast) var(--ease-out) both;
+}
+
+.animate-modal-enter {
+  animation: modalEnter var(--duration-modal) var(--ease-out) both;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--duration-base) var(--ease-out) both;
+}
+
+.animate-toast {
+  animation: toastEnter var(--duration-base) var(--ease-out) both;
+}
+
+/* Accessible Viewport Reveal Utility */
+.reveal-wrapper {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal-wrapper.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pointer & Hover Gating */
+@media (hover: hover) and (pointer: fine) {
+  .hover-subtle {
+    transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  }
+  .hover-subtle:hover {
+    border-color: rgba(15, 23, 42, 0.2);
+  }
+}
+
+/* Reduced Motion Override for Accessibility (WCAG 2.1 AA) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-wrapper {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
